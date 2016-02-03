@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pyvcp>
+<tabs>
+<names>["General","Trajectori\nplannig"]</names>
+<vbox>
+<labelframe text="Work counter">
+<font>("Helvetica",16)</font>
+<labelframe text="Program time">
+	<table flexible_rows="[2]" flexible_columns="[1,4]">
+		<tablesticky sticky="sew"/>
+			<tablerow/>	
+					<label>
+						<text>""</text>
+					</label>
+					<label>
+						<text>"Hours"</text>
+					</label>
+					<label>
+						<text>"Minutes"</text>
+					</label>
+					<label>
+						<text>"Seconds"</text>
+					</label>
+			<tablerow/>
+					<label>
+						<text>"Work"</text>
+					</label>
+						<u32 halpin="program-work-hours.in"/>
+						<u32 halpin="program-work-minutes.in"/>
+						<u32 halpin="program-work-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Pause"</text>
+					</label>
+						<u32 halpin="program-pause-hours.in"/>
+						<u32 halpin="program-pause-minutes.in"/>
+						<u32 halpin="program-pause-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Service"</text>
+					</label>
+						<u32 halpin="program-service-hours.in"/>
+						<u32 halpin="program-service-minutes.in"/>
+						<u32 halpin="program-service-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Lost"</text>
+					</label>
+						<u32 halpin="program-lost-time-hours.in"/>
+						<u32 halpin="program-lost-time-minutes.in"/>
+						<u32 halpin="program-lost-time-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Total"</text>
+					</label>
+						<u32 halpin="program-total-hours.in"/>
+						<u32 halpin="program-total-minutes.in"/>
+						<u32 halpin="program-total-seconds.in"/>
+	</table>
+		<hbox>
+					<hbox>
+						<button>
+							<text>"Program\nsuccess"</text>
+							<halpin>"program-success.out"</halpin>
+						</button>
+						<button>
+							<text>"Program\ncanceled"</text>
+							<halpin>"program-canceled.out"</halpin>
+						</button>
+					</hbox>
+		</hbox>
+</labelframe>
+<labelframe text="Cycle time">
+	<table flexible_rows="[2]" flexible_columns="[1,4]">
+		<tablesticky sticky="sew"/>
+			<tablerow/>	
+					<label>
+						<text>""</text>
+					</label>
+					<label>
+						<text>"Hours"</text>
+					</label>
+					<label>
+						<text>"Minutes"</text>
+					</label>
+					<label>
+						<text>"Seconds"</text>
+					</label>
+			<tablerow/>
+					<label>
+						<text>"Work"</text>
+					</label>
+						<u32 halpin="cycle-work-hours.in"/>
+						<u32 halpin="cycle-work-minutes.in"/>
+						<u32 halpin="cycle-work-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Pause"</text>
+					</label>
+						<u32 halpin="cycle-pause-hours.in"/>
+						<u32 halpin="cycle-pause-minutes.in"/>
+						<u32 halpin="cycle-pause-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Service"</text>
+					</label>
+						<u32 halpin="cycle-service-hours.in"/>
+						<u32 halpin="cycle-service-minutes.in"/>
+						<u32 halpin="cycle-service-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Lost"</text>
+					</label>
+						<u32 halpin="cycle-lost-time-hours.in"/>
+						<u32 halpin="cycle-lost-time-minutes.in"/>
+						<u32 halpin="cycle-lost-time-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Total"</text>
+					</label>
+						<u32 halpin="cycle-total-hours.in"/>
+						<u32 halpin="cycle-total-minutes.in"/>
+						<u32 halpin="cycle-total-seconds.in"/>
+	</table>
+			<vbox>	
+					<vbox>
+						<hbox>
+							<label>
+								<text>"Program canceled per cycle"</text>
+							</label>
+							<u32>
+							    <halpin>"canceled-program-per-cycle-count.in"</halpin>
+							    <format>"1.0f"</format>
+							</u32>
+						</hbox>
+						<hbox>
+							<label>
+								<text>"Program success per cycle"</text>
+							</label>
+							<u32>
+							    <halpin>"success-program-per-cycle-count.in"</halpin>
+							    <format>"1.0f"</format>
+							</u32>
+						</hbox>
+						<hbox>
+							<label>
+								<text>"Program per cycle"</text>
+							</label>
+							<spinbox>
+								<halpin>"program-per-cycle.out"</halpin>
+								<min_>1</min_>
+								<max_>16</max_>
+								<initval>1</initval>
+								<resolution>1.0</resolution>
+								<format>"1.0f"</format>
+								<param_pin>1</param_pin>
+							</spinbox>
+						</hbox>
+					</vbox>
+					<hbox>
+						<button>
+							<text>"Cycle\nsuccess"</text>
+							<halpin>"cycle-success.out"</halpin>
+						</button>
+						<button>
+							<text>"Cycle\nreset"</text>
+							<halpin>"cycle-reset.out"</halpin>
+						</button>
+						<button>
+							<text>"Cycle\ncanceled"</text>
+							<halpin>"cycle-canceled.out"</halpin>
+						</button>
+					</hbox>
+			</vbox>
+</labelframe>
+<labelframe text="Summary time">
+	<table flexible_rows="[2]" flexible_columns="[1,4]">
+		<tablesticky sticky="sew"/>
+			<tablerow/>	
+					<label>
+						<text>""</text>
+					</label>
+					<label>
+						<text>"Hours"</text>
+					</label>
+					<label>
+						<text>"Minutes"</text>
+					</label>
+					<label>
+						<text>"Seconds"</text>
+					</label>
+			<tablerow/>
+					<label>
+						<text>"Work"</text>
+					</label>
+						<u32 halpin="summary-work-hours.in"/>
+						<u32 halpin="summary-work-minutes.in"/>
+						<u32 halpin="summary-work-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Pause"</text>
+					</label>
+						<u32 halpin="summary-pause-hours.in"/>
+						<u32 halpin="summary-pause-minutes.in"/>
+						<u32 halpin="summary-pause-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Service"</text>
+					</label>
+						<u32 halpin="summary-service-hours.in"/>
+						<u32 halpin="summary-service-minutes.in"/>
+						<u32 halpin="summary-service-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Lost"</text>
+					</label>
+						<u32 halpin="summary-lost-time-hours.in"/>
+						<u32 halpin="summary-lost-time-minutes.in"/>
+						<u32 halpin="summary-lost-time-seconds.in"/>
+			<tablerow/>	
+					<label>
+						<text>"Total"</text>
+					</label>
+						<u32 halpin="summary-total-hours.in"/>
+						<u32 halpin="summary-total-minutes.in"/>
+						<u32 halpin="summary-total-seconds.in"/>
+	</table>
+	<hbox>
+		<vbox>
+			<hbox>
+				<label>
+					<text>"summary-program-success :"</text>
+				</label>
+				<u32>
+					<halpin>"summary-program-success-count.in"</halpin>
+					<format>"4.0f"</format>
+				</u32>
+			</hbox>
+			<hbox>
+				<label>
+					<text>"summary-program-canceled :"</text>
+				</label>
+				<u32>
+					<halpin>"summary-program-canceled-count.in"</halpin>
+					<format>"4.0f"</format>
+				</u32>
+			</hbox>
+		</vbox>
+		<vbox>
+			<hbox>
+				<label>
+					<text>"summary-cycles-success : "</text>
+				</label>
+				<u32>
+					<halpin>"summary-cycles-success-count.in"</halpin>
+					<format>"4.0f"</format>
+				</u32>
+			</hbox>
+			<hbox>
+				<label>
+					<text>"summary-cycles-canceled :"</text>
+				</label>
+				<u32>
+					<halpin>"summary-cycles-canceled-count.in"</halpin>
+					<format>"4.0f"</format>
+				</u32>
+			</hbox>
+		</vbox>
+	</hbox>
+</labelframe>
+
+					<hbox>
+						<checkbutton>
+							<text>"Work counter\npause"</text>
+							<halpin>"work-counter-pause.out"</halpin>
+							<initval>0</initval>
+						</checkbutton>
+						<button>
+							<text>"Work counter\nrestart"</text>
+							<halpin>"work-counter-restart.out"</halpin>
+						</button>
+					</hbox>
+</labelframe>
+</vbox>
+</tabs>
+</pyvcp>
