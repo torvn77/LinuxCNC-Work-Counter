@@ -1,0 +1,268 @@
+component work_counter "Time of works on in Hours, Minutes, Seconds";
+
+description 
+"""
+Comments
+
+""";
+ 
+author "torvn77";
+
+license "GPL and additional rights";
+//
+variable double program_work_nsec;
+variable double program_pause_nsec;
+variable double program_service_nsec;
+variable double program_lost_time_nsec;
+//
+variable rtapi_u32 program_work_sec;
+variable rtapi_u32 program_pause_sec;
+variable rtapi_u32 program_service_sec;
+variable rtapi_u32 program_lost_time_sec;
+variable rtapi_u32 program_total_sec;
+//
+pin out u32 program_work_seconds "Seconds";
+pin out u32 program_work_minutes "Minutes";
+pin out u32 program_work_hours "Hours";
+pin out u32 program_pause_seconds "Seconds";
+pin out u32 program_pause_minutes "Minutes";
+pin out u32 program_pause_hours "Hours";
+pin out u32 program_service_seconds "Seconds";
+pin out u32 program_service_minutes "Minutes";
+pin out u32 program_service_hours "Hours";
+pin out u32 program_lost_time_seconds "Seconds";
+pin out u32 program_lost_time_minutes "Minutes";
+pin out u32 program_lost_time_hours "Hours";
+pin out u32 program_total_seconds "Seconds";
+pin out u32 program_total_minutes "Minutes";
+pin out u32 program_total_hours "Hours";
+//
+pin out u32 cycle_program_success_count "";
+pin out u32 cycle_program_canceled_count "";
+//
+variable rtapi_u32 cycle_work_sec;
+variable rtapi_u32 cycle_pause_sec;
+variable rtapi_u32 cycle_service_sec;
+variable rtapi_u32 cycle_lost_time_sec;
+variable rtapi_u32 cycle_total_sec;
+//
+pin out u32 cycle_work_seconds "Seconds";
+pin out u32 cycle_work_minutes "Minutes";
+pin out u32 cycle_work_hours "Hours";
+pin out u32 cycle_pause_seconds "Seconds";
+pin out u32 cycle_pause_minutes "Minutes";
+pin out u32 cycle_pause_hours "Hours";
+pin out u32 cycle_service_seconds "Seconds";
+pin out u32 cycle_service_minutes "Minutes";
+pin out u32 cycle_service_hours "Hours";
+pin out u32 cycle_lost_time_seconds "Seconds";
+pin out u32 cycle_lost_time_minutes "Minutes";
+pin out u32 cycle_lost_time_hours "Hours";
+pin out u32 cycle_total_seconds "Seconds";
+pin out u32 cycle_total_minutes "Minutes";
+pin out u32 cycle_total_hours "Hours";
+//
+
+pin out u32 summary_program_success_count "";
+pin out u32 summary_program_canceled_count "";
+pin out u32 summary_cycles_success_count "";
+pin out u32 summary_cycles_canceled_count "";
+//
+variable rtapi_u32 summary_work_sec;
+variable rtapi_u32 summary_pause_sec;
+variable rtapi_u32 summary_service_sec;
+variable rtapi_u32 summary_lost_time_sec;
+variable rtapi_u32 summary_total_sec;
+//
+pin out u32 summary_work_seconds "Seconds";
+pin out u32 summary_work_minutes "Minutes";
+pin out u32 summary_work_hours "Hours";
+pin out u32 summary_pause_seconds "Seconds";
+pin out u32 summary_pause_minutes "Minutes";
+pin out u32 summary_pause_hours "Hours";
+pin out u32 summary_service_seconds "";
+pin out u32 summary_service_minutes "";
+pin out u32 summary_service_hours "";
+pin out u32 summary_lost_time_seconds "";
+pin out u32 summary_lost_time_minutes "";
+pin out u32 summary_lost_time_hours "";
+pin out u32 summary_total_seconds "Seconds";
+pin out u32 summary_total_minutes "Minutes";
+pin out u32 summary_total_hours "Hours";
+/*
++++++++++++++++++++++++++++++++++++++++++++++++++++
+*/
+pin in bit machine_is_on;
+variable bool machine_is_on_old;
+pin in bit program_running "Start Program";
+variable bool program_running_old;
+pin in bit program_paused "Program Pause";
+variable bool program_paused_old;
+pin in bit program_idle "Work Machine Idle";
+variable bool program_idle_old;
+pin in bit program_canceled "";
+variable bool program_canceled_old;
+pin in bit program_success "";
+variable bool program_success_old;
+//
+pin in bit cycle_success "";
+variable bool cycle_success_old;
+pin in bit cycle_canceled "";
+variable bool cycle_canceled_old;
+pin in bit cycle_reset "";
+variable bool cycle_reset_old;
+//
+pin in bit work_counter_pause "";
+variable bool work_counter_pause_old;
+pin in bit work_counter_restart "";
+variable bool work_counter_restart_old;
+//
+
+function _;
+
+;;
+#include "rtapi.h"
+#include "rtapi_math.h"
+
+FUNCTION(_) {
+
+/*
+----------------------------------
+*/
+rtapi_u32 period_nsec;
+
+if(work_counter_restart && !work_counter_restart_old){ 
+program_work_nsec = 0 ;
+program_pause_nsec = 0 ;
+program_service_nsec = 0 ;
+program_lost_time_nsec = 0 ;
+//
+program_work_sec = 0 ;
+program_pause_sec = 0 ;
+program_service_sec = 0 ;
+program_lost_time_sec = 0 ;
+//
+cycle_work_sec = 0;
+cycle_pause_sec = 0;
+cycle_service_sec = 0;
+cycle_lost_time_sec = 0;
+//
+summary_work_sec = 0;
+summary_pause_sec = 0;
+summary_service_sec = 0;
+summary_lost_time_sec = 0;
+}
+/*
+Счёт ведётся только при включённом станке
+Также если УП не выполняется или стоит на паузе то счётчик можно остановить
+*/
+if(machine_is_on && !(work_counter_pause && (program_idle || program_paused))) period_nsec = period; else period_nsec = 0 ;
+//
+if(program_running && !program_paused){
+program_work_nsec = program_work_nsec + period_nsec;
+}
+if(program_paused && !program_running){
+program_pause_nsec = program_pause_nsec + period_nsec;
+}
+if(program_idle){
+program_service_nsec = program_service_nsec + period_nsec;
+}
+//
+/*
+--------------------------------
+*/
+program_work_sec = program_work_nsec * 0.000000001;
+program_pause_sec = program_pause_nsec * 0.000000001;
+program_service_sec = program_service_nsec * 0.000000001 ;
+/*
+//
+if(!program_running_old && program_running){
+}
+if(program_running_old && !program_running){
+}
+program_lost_time_sec = ;
+*/
+//
+cycle_work_sec = 3600;
+cycle_pause_sec = 3600;
+cycle_service_sec = 3600;
+cycle_lost_time_sec = 3600;
+//
+summary_work_sec = 3600;
+summary_pause_sec = 3600;
+summary_service_sec = 3600;
+summary_lost_time_sec = 3600;
+
+//
+
+/*
+--------------------------------
+*/
+program_work_seconds  =  program_work_sec % 60;
+program_work_minutes  = (program_work_sec / 60) % 60;
+program_work_hours    = (program_work_sec / 3600);
+//
+program_pause_seconds =  program_pause_sec % 60;
+program_pause_minutes = (program_pause_sec / 60) % 60;
+program_pause_hours   = (program_pause_sec / 3600);
+//
+program_service_seconds =  program_service_sec % 60;
+program_service_minutes = (program_service_sec / 60) % 60;
+program_service_hours   = (program_service_sec / 3600);
+//
+program_lost_time_seconds =  program_lost_time_sec % 60;
+program_lost_time_minutes = (program_lost_time_sec / 60) % 60;
+program_lost_time_hours   = (program_lost_time_sec / 3600);
+//
+program_total_sec = program_work_sec + program_pause_sec + program_service_sec + program_lost_time_sec;
+program_total_seconds =  program_total_sec % 60;
+program_total_minutes = (program_total_sec / 60) % 60;
+program_total_hours   = (program_total_sec / 3600);
+
+/*
+---------------------------
+*/
+cycle_work_seconds =  cycle_work_sec % 60;
+cycle_work_minutes = (cycle_work_sec / 60) % 60;
+cycle_work_hours   = (cycle_work_sec / 3600);
+//
+cycle_pause_seconds =  cycle_pause_sec % 60;
+cycle_pause_minutes = (cycle_pause_sec / 60) % 60;
+cycle_pause_hours   = (cycle_pause_sec / 3600);
+//
+cycle_service_seconds =  cycle_service_sec % 60;
+cycle_service_minutes = (cycle_service_sec / 60) % 60;
+cycle_service_hours   = (cycle_service_sec / 3600);
+//
+cycle_lost_time_seconds =  cycle_lost_time_sec % 60;
+cycle_lost_time_minutes = (cycle_lost_time_sec / 60) % 60;
+cycle_lost_time_hours   = (cycle_lost_time_sec / 3600);
+//
+cycle_total_sec = cycle_work_sec + cycle_pause_sec + cycle_service_sec + cycle_lost_time_sec;
+cycle_total_seconds =  cycle_total_sec % 60;
+cycle_total_minutes = (cycle_total_sec / 60) % 60;
+cycle_total_hours   = (cycle_total_sec / 3600);
+/*
+--------------------------
+*/
+summary_work_seconds = summary_work_sec % 60;
+summary_work_minutes = (summary_work_sec / 60) % 60;
+summary_work_hours   = (summary_work_sec / 3600);
+//
+summary_pause_seconds = summary_pause_sec % 60;
+summary_pause_minutes = (summary_pause_sec / 60) % 60;
+summary_pause_hours   = (summary_pause_sec / 3600);
+//
+summary_service_seconds =  summary_service_sec % 60;
+summary_service_minutes = (summary_service_sec / 60) % 60;
+summary_service_hours   = (summary_service_sec / 3600);
+//
+summary_lost_time_seconds =  summary_lost_time_sec % 60;
+summary_lost_time_minutes = (summary_lost_time_sec / 60) % 60;
+summary_lost_time_hours   = (summary_lost_time_sec / 3600);
+//
+summary_total_sec = summary_work_sec + summary_pause_sec + summary_service_sec + summary_lost_time_sec;
+summary_total_seconds =  summary_total_sec % 60;
+summary_total_minutes = (summary_total_sec / 60) % 60;
+summary_total_hours   = (summary_total_sec / 3600);
+}
