@@ -1,0 +1,70 @@
+loadrt work_counter
+addf work-counter servo-thread
+net machine-is-on      <= halui.machine.is-on      => work-counter.machine-is-on
+net program-is-idle    <= halui.program.is-idle    => work-counter.program-idle
+net program.is-paused  <= halui.program.is-paused  => work-counter.program-paused
+net program.is-running <= halui.program.is-running => work-counter.program-running
+
+net autoname.work-counter-010 pyvcp.canceled-program-per-cycle-count.in    <= work-counter.cycle-program-canceled-count
+net autoname.work-counter-011 pyvcp.success-program-per-cycle-count.in    <= work-counter.cycle-program-success-count
+net autoname.work-counter-041 pyvcp.summary-cycles-canceled-count.in  <= work-counter.summary-cycles-canceled-count
+net autoname.work-counter-042 pyvcp.summary-cycles-success-count.in   <= work-counter.summary-cycles-success-count
+net autoname.work-counter-049 pyvcp.summary-program-canceled-count.in <= work-counter.summary-program-canceled-count
+net autoname.work-counter-050 pyvcp.summary-program-success-count.in  <= work-counter.summary-program-success-count
+net autoname.work-counter-001 pyvcp.cycle-reset.out                   =>  work-counter.cycle-reset
+net autoname.work-counter-002 pyvcp.cycle-canceled.out                =>  work-counter.cycle-canceled
+net autoname.work-counter-003 pyvcp.cycle-success.out                 =>  work-counter.cycle-success
+net autoname.work-counter-006 pyvcp.program-success.out              =>  work-counter.program-success
+net autoname.work-counter-007 pyvcp.program-canceled.out             =>  work-counter.program-canceled
+net autoname.work-counter-008 pyvcp.work-counter-pause.out             =>  work-counter.work-counter-pause
+net autoname.work-counter-009 pyvcp.work-counter-restart.out           =>  work-counter.work-counter-restart
+
+net autoname.work-counter-004 pyvcp.cycle-lost-time-hours.in          <= work-counter.cycle-lost-time-hours
+net autoname.work-counter-005 pyvcp.cycle-lost-time-minutes.in        <= work-counter.cycle-lost-time-minutes
+net autoname.work-counter-006 pyvcp.cycle-lost-time-seconds.in        <= work-counter.cycle-lost-time-seconds
+net autoname.work-counter-007 pyvcp.cycle-pause-hours.in              <= work-counter.cycle-pause-hours
+net autoname.work-counter-008 pyvcp.cycle-pause-minutes.in            <= work-counter.cycle-pause-minutes
+net autoname.work-counter-009 pyvcp.cycle-pause-seconds.in            <= work-counter.cycle-pause-seconds
+net autoname.work-counter-012 pyvcp.cycle-service-hours.in            <= work-counter.cycle-service-hours
+net autoname.work-counter-013 pyvcp.cycle-service-minutes.in          <= work-counter.cycle-service-minutes
+net autoname.work-counter-014 pyvcp.cycle-service-seconds.in          <= work-counter.cycle-service-seconds
+net autoname.work-counter-015 pyvcp.cycle-total-hours.in              <= work-counter.cycle-total-hours
+net autoname.work-counter-016 pyvcp.cycle-total-minutes.in            <= work-counter.cycle-total-minutes
+net autoname.work-counter-017 pyvcp.cycle-total-seconds.in            <= work-counter.cycle-total-seconds
+net autoname.work-counter-018 pyvcp.cycle-work-hours.in               <= work-counter.cycle-work-hours
+net autoname.work-counter-019 pyvcp.cycle-work-minutes.in             <= work-counter.cycle-work-minutes
+net autoname.work-counter-020 pyvcp.cycle-work-seconds.in             <= work-counter.cycle-work-seconds
+net autoname.work-counter-026 pyvcp.program-lost-time-hours.in        <= work-counter.program-lost-time-hours
+net autoname.work-counter-027 pyvcp.program-lost-time-minutes.in      <= work-counter.program-lost-time-minutes
+net autoname.work-counter-028 pyvcp.program-lost-time-seconds.in      <= work-counter.program-lost-time-seconds
+net autoname.work-counter-029 pyvcp.program-pause-hours.in            <= work-counter.program-pause-hours
+net autoname.work-counter-030 pyvcp.program-pause-minutes.in          <= work-counter.program-pause-minutes
+net autoname.work-counter-031 pyvcp.program-pause-seconds.in          <= work-counter.program-pause-seconds
+net autoname.work-counter-032 pyvcp.program-service-hours.in          <= work-counter.program-service-hours
+net autoname.work-counter-033 pyvcp.program-service-minutes.in        <= work-counter.program-service-minutes
+net autoname.work-counter-034 pyvcp.program-service-seconds.in        <= work-counter.program-service-seconds
+net autoname.work-counter-035 pyvcp.program-total-hours.in            <= work-counter.program-total-hours
+net autoname.work-counter-036 pyvcp.program-total-minutes.in          <= work-counter.program-total-minutes
+net autoname.work-counter-037 pyvcp.program-total-seconds.in          <= work-counter.program-total-seconds
+net autoname.work-counter-038 pyvcp.program-work-hours.in             <= work-counter.program-work-hours
+net autoname.work-counter-039 pyvcp.program-work-minutes.in           <= work-counter.program-work-minutes
+net autoname.work-counter-040 pyvcp.program-work-seconds.in           <= work-counter.program-work-seconds
+net autoname.work-counter-043 pyvcp.summary-lost-time-hours.in        <= work-counter.summary-lost-time-hours
+net autoname.work-counter-044 pyvcp.summary-lost-time-minutes.in      <= work-counter.summary-lost-time-minutes
+net autoname.work-counter-045 pyvcp.summary-lost-time-seconds.in      <= work-counter.summary-lost-time-seconds
+net autoname.work-counter-046 pyvcp.summary-pause-hours.in            <= work-counter.summary-pause-hours
+net autoname.work-counter-047 pyvcp.summary-pause-minutes.in          <= work-counter.summary-pause-minutes
+net autoname.work-counter-048 pyvcp.summary-pause-seconds.in          <= work-counter.summary-pause-seconds
+net autoname.work-counter-051 pyvcp.summary-service-hours.in          <= work-counter.summary-service-hours
+net autoname.work-counter-052 pyvcp.summary-service-minutes.in        <= work-counter.summary-service-minutes
+net autoname.work-counter-053 pyvcp.summary-service-seconds.in        <= work-counter.summary-service-seconds
+net autoname.work-counter-054 pyvcp.summary-total-hours.in            <= work-counter.summary-total-hours
+net autoname.work-counter-055 pyvcp.summary-total-minutes.in          <= work-counter.summary-total-minutes
+net autoname.work-counter-056 pyvcp.summary-total-seconds.in          <= work-counter.summary-total-seconds
+net autoname.work-counter-057 pyvcp.summary-work-hours.in             <= work-counter.summary-work-hours
+net autoname.work-counter-058 pyvcp.summary-work-minutes.in           <= work-counter.summary-work-minutes
+net autoname.work-counter-059 pyvcp.summary-work-seconds.in           <= work-counter.summary-work-seconds
+
+
+
+loadusr halshow my.halshow
