@@ -1,0 +1,146 @@
+component work_time "Time of works on in Hours, Minutes, Seconds";
+
+description 
+"""
+Comments
+
+""";
+ 
+author "torvn77";
+
+license "GPL and additional rights";
+
+// Input Pins
+pin in bit running "Start Work Machine Trajectory";
+pin in bit paused "Timer Pause";
+pin in bit idle "Work Machine Idle";
+pin in bit reset "Timer Reset";
+pin in bit program_error_stoped "Reset current timer";
+
+// Output Pins
+pin out u32 current_work_seconds "Seconds";
+pin out u32 current_work_minutes "Minutes";
+pin out u32 current_work_hours "Hours";
+//
+pin out u32 total_work_seconds "Seconds";
+pin out u32 total_work_minutes "Minutes";
+pin out u32 total_work_hours "Hours";
+//
+pin out u32 current_pause_seconds "Seconds";
+pin out u32 current_pause_minutes "Minutes";
+pin out u32 current_pause_hours "Hours";
+//
+pin out u32 total_pause_seconds "Seconds";
+pin out u32 total_pause_minutes "Minutes";
+pin out u32 total_pause_hours "Hours";
+//
+pin out u32 total_time_seconds "Seconds";
+pin out u32 total_time_minutes "Minutes";
+pin out u32 total_time_hours "Hours";
+//
+pin out u32 running_count "Running counter";
+pin out u32 products_number "Numbers of Product"
+pin out u32 summary_pause_time ""
+pin out u32 summary_work_time ""
+
+// Global Variables
+variable double cur_work_nsec;
+variable double total_work_nsec;
+//
+variable double cur_pause_nsec;
+variable double total_pause_nsec;
+//
+variable double running_counter;
+//
+variable int old_running;
+variable int old_paused;
+variable int old_idle;
+variable int old_reset;
+variable int old_program_error_stoped;
+
+function _;
+
+;;
+
+#include "rtapi_math.h"
+#include <rtapi_bool.h>
+
+FUNCTION(_) {
+rtapi_u32 cur_work_seconds_in;
+rtapi_u32 total_work_seconds_in;
+//
+rtapi_u32 cur_pause_seconds_in;
+rtapi_u32 total_pause_seconds_in;
+rtapi_u32 total_time_in;
+rtapi_u32 dont_increment_running_counter;
+
+//
+
+//инициализация счётчика времени операции и подсчёт числа запущенных программ  
+	if(running && !(old_running||old_paused) && old_idle){
+		if(!dont_increment_running_counter) running_counter = running_counter+1 ;
+		dont_increment_running_counter = 0;
+		total_work_nsec = total_work_nsec + cur_work_nsec;
+		total_pause_nsec = total_pause_nsec + cur_pause_nsec;
+		cur_work_nsec = 0;
+		cur_pause_nsec = 0;
+	}
+//подсчёт времени работы
+	if(running && !(idle || paused)){
+		cur_work_nsec = cur_work_nsec +period;
+	}
+//Подсчёт времени вспомогательных операций
+	if((paused || idle) && !running){
+		cur_pause_nsec = cur_pause_nsec +period;
+	}
+// Сброс счётчиков
+    if(reset && !old_reset){
+		cur_work_nsec = 0;
+		total_work_nsec = 0;
+		cur_pause_nsec = 0;
+		total_pause_nsec = 0;
+		running_counter = 0;
+	}
+//
+	if(program_error_stoped && !old_program_error_stoped){
+		cur_pause_nsec = cur_pause_nsec + cur_work_nsec;
+		cur_work_nsec = 0;
+		dont_increment_running_counter = 1;
+}
+
+//
+cur_work_seconds_in = cur_work_nsec * 0.000000001;
+current_work_seconds = cur_work_seconds_in % 60;
+current_work_minutes = (cur_work_seconds_in / 60) % 60;
+current_work_hours = (cur_work_seconds_in / 3600);
+//
+total_work_seconds_in = total_work_nsec * 0.000000001;
+total_work_seconds = total_work_seconds_in % 60;
+total_work_minutes = (total_work_seconds_in / 60) % 60;
+total_work_hours = (total_work_seconds_in / 3600);
+//
+//
+cur_pause_seconds_in = cur_pause_nsec * 0.000000001;
+current_pause_seconds = cur_pause_seconds_in % 60;
+current_pause_minutes = (cur_pause_seconds_in / 60) % 60;
+current_pause_hours = (cur_pause_seconds_in / 3600);
+//
+total_pause_seconds_in = total_pause_nsec * 0.000000001;
+total_pause_seconds = total_pause_seconds_in % 60;
+total_pause_minutes = (total_pause_seconds_in / 60) % 60;
+total_pause_hours = (total_pause_seconds_in / 3600);
+//
+total_time_in = (total_work_nsec + total_pause_nsec + cur_work_nsec + cur_pause_nsec) * 0.000000001;
+total_time_seconds = total_time_in % 60;
+total_time_minutes = (total_time_in / 60) % 60;
+total_time_hours = (total_time_in / 3600);
+//
+running_count = running_counter;
+//
+old_running = running;
+old_paused = paused;
+old_idle = idle;
+old_reset = reset;
+old_program_error_stoped = program_error_stoped;
+}
+
