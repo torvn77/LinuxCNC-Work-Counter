@@ -1,0 +1,105 @@
+#
+loadrt sim_axis_hardware names=sim-limits
+addf sim-limits.update servo-thread
+
+net Xjoint-pos-fb => sim-limits.Xcurrent-pos
+net Yjoint-pos-fb => sim-limits.Ycurrent-pos
+net Zjoint-pos-fb => sim-limits.Zcurrent-pos
+net Ajoint-pos-fb => sim-limits.Acurrent-pos
+
+setp sim-limits.Xmaxsw-upper 700.5
+setp sim-limits.Xmaxsw-lower [AXIS_0]MAX_LIMIT
+setp sim-limits.Xminsw-upper [AXIS_0]MIN_LIMIT
+setp sim-limits.Xminsw-lower -1.5
+setp sim-limits.Xhomesw-pos [AXIS_0]HOME_OFFSET
+
+setp sim-limits.Ymaxsw-upper 800.5
+setp sim-limits.Ymaxsw-lower [AXIS_1]MAX_LIMIT
+setp sim-limits.Yminsw-upper [AXIS_1]MIN_LIMIT
+setp sim-limits.Yminsw-lower -1.5
+setp sim-limits.Yhomesw-pos [AXIS_1]HOME_OFFSET
+
+setp sim-limits.Zmaxsw-upper 1.5
+setp sim-limits.Zmaxsw-lower [AXIS_2]MAX_LIMIT
+setp sim-limits.Zminsw-upper [AXIS_2]MIN_LIMIT
+setp sim-limits.Zminsw-lower -120.5
+setp sim-limits.Zhomesw-pos [AXIS_2]HOME_OFFSET
+
+setp sim-limits.Amaxsw-upper 10000
+#setp sim-limits.Amaxsw-lower [AXIS_3]MAX_LIMIT
+#setp sim-limits.Aminsw-upper [AXIS_3]MIN_LIMIT
+setp sim-limits.Aminsw-lower -10000
+#setp sim-limits.Ahomesw-pos [AXIS_3]HOME_OFFSET
+
+setp sim-limits.Umaxsw-upper 10000
+#setp sim-limits.Umaxsw-lower [AXIS_4]MAX_LIMIT
+#setp sim-limits.Uminsw-upper [AXIS_4]MIN_LIMIT
+setp sim-limits.Uminsw-lower -10000
+#setp sim-limits.Uhomesw-pos [AXIS_4]HOME_OFFSET
+
+setp sim-limits.Vmaxsw-upper 10000
+#setp sim-limits.Vmaxsw-lower [AXIS_5]MAX_LIMIT
+#setp sim-limits.Vminsw-upper [AXIS_5]MIN_LIMIT
+setp sim-limits.Vminsw-lower -10000
+#setp sim-limits.Vhomesw-pos [AXIS_5]HOME_OFFSET
+
+
+
+net all-home          sim-limits.homesw-all
+net all-limit         sim-limits.limitsw-all
+net all-limit-home    sim-limits.limitsw-homesw-all
+
+net both-x            sim-limits.Xbothsw-out
+net max-x             sim-limits.Xmaxsw-out
+net min-x             sim-limits.Xminsw-out
+
+net both-y            sim-limits.Ybothsw-out
+net max-y             sim-limits.Ymaxsw-out
+net min-y             sim-limits.Yminsw-out
+
+net both-z            sim-limits.Zbothsw-out
+net max-z             sim-limits.Zmaxsw-out
+net min-z             sim-limits.Zminsw-out
+
+net both-a            sim-limits.Abothsw-out
+net max-a             sim-limits.Amaxsw-out
+net min-a             sim-limits.Aminsw-out
+
+net both-u            sim-limits.Ubothsw-out
+net max-u             sim-limits.Umaxsw-out
+net min-u             sim-limits.Uminsw-out
+
+net both-v            sim-limits.Vbothsw-out
+net max-v             sim-limits.Vmaxsw-out
+net min-v             sim-limits.Vminsw-out
+
+net home-x            sim-limits.Xhomesw-out
+net home-y            sim-limits.Yhomesw-out
+net home-z            sim-limits.Zhomesw-out
+net home-a            sim-limits.Ahomesw-out
+net home-u            sim-limits.Uhomesw-out
+net home-v            sim-limits.Vhomesw-out
+
+net both-home-x       sim-limits.Xbothsw-homesw-out
+net max-home-x        sim-limits.Xmaxsw-homesw-out
+net min-home-x        sim-limits.Xminsw-homesw-out
+
+net both-home-y       sim-limits.Ybothsw-homesw-out
+net max-home-y        sim-limits.Ymaxsw-homesw-out
+net min-home-y        sim-limits.Yminsw-homesw-out
+
+net both-home-z       sim-limits.Zbothsw-homesw-out
+net max-home-z        sim-limits.Zmaxsw-homesw-out
+net min-home-z        sim-limits.Zminsw-homesw-out
+
+net both-home-a       sim-limits.Abothsw-homesw-out
+net max-home-a        sim-limits.Amaxsw-homesw-out
+net min-home-a        sim-limits.Aminsw-homesw-out
+
+net both-home-u       sim-limits.Ubothsw-homesw-out
+net max-home-u        sim-limits.Umaxsw-homesw-out
+net min-home-u        sim-limits.Uminsw-homesw-out
+
+net both-home-v       sim-limits.Vbothsw-homesw-out
+net max-home-v        sim-limits.Vmaxsw-homesw-out
+net min-home-v        sim-limits.Vminsw-homesw-out
