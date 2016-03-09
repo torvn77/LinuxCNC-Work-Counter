@@ -1,0 +1,9 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Name=Work Counter (Git)
+Exec=/usr/bin/linuxcnc 'Git/LinuxCNC-Work-Counter/src/conf/WorkCounter.ini'
+Type=Application
+Comment=
+Icon=linuxcncicon
+Name[en_US]=Work Counter (Git)
