@@ -1,0 +1,57 @@
+#
+loadrt stepgen step_type=0,0,0
+addf stepgen.make-pulses base-thread
+addf stepgen.update-freq servo-thread
+addf stepgen.capture-position servo-thread
+
+setp stepgen.0.position-scale [STEPGEN_0]SCALE
+setp stepgen.0.steplen 1
+setp stepgen.0.stepspace 0
+setp stepgen.0.dirhold 1
+setp stepgen.0.dirsetup 1
+setp stepgen.0.maxaccel [STEPGEN_0]STEPGEN_MAXACCEL
+
+net xenable  => stepgen.0.enable
+net xpos-cmd => stepgen.0.position-cmd
+net xpos-fb  <= stepgen.0.position-fb
+net xstep    <= stepgen.0.step
+net xdir     <= stepgen.0.dir
+
+setp stepgen.1.position-scale [STEPGEN_1]SCALE
+setp stepgen.1.steplen 1
+setp stepgen.1.stepspace 0
+setp stepgen.1.dirhold 1
+setp stepgen.1.dirsetup 1
+setp stepgen.1.maxaccel [STEPGEN_1]STEPGEN_MAXACCEL
+
+net yenable  => stepgen.1.enable
+net ypos-cmd => stepgen.1.position-cmd
+net ypos-fb  => stepgen.1.position-fb
+net ydir     <= stepgen.1.dir
+net ystep    <= stepgen.1.step
+
+setp stepgen.2.position-scale [STEPGEN_2]SCALE
+setp stepgen.2.steplen 1
+setp stepgen.2.stepspace 0
+setp stepgen.2.dirhold 1
+setp stepgen.2.dirsetup 1
+setp stepgen.2.maxaccel [STEPGEN_2]STEPGEN_MAXACCEL
+
+net zenable  => stepgen.2.enable
+net zpos-cmd => stepgen.2.position-cmd
+net zpos-fb  <= stepgen.2.position-fb
+net zdir     <= stepgen.2.dir
+net zstep    <= stepgen.2.step
+
+#loadrt sim_parport names=parport.0
+#setp parport.0.reset-time 500
+#addf parport.0.read base-thread
+#addf parport.0.write base-thread
+#addf parport.0.reset base-thread
+
+#net xstep           => parport.0.pin-01-out
+#setp parport.0.pin-01-out-reset 1
+#net zstep           => parport.0.pin-02-out
+#setp parport.0.pin-02-out-reset 1
+#net zdir            => parport.0.pin-03-out
+#net xdir            => parport.0.pin-14-out
