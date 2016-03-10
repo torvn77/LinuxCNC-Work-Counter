@@ -60,6 +60,14 @@
 		<hbox>
 					<hbox>
 						<button>
+							<text>"Program\nstart"</text>
+							<halpin>"program-start.out"</halpin>
+						</button>
+						<button>
+							<text>"Program\npause"</text>
+							<halpin>"program-pause.out"</halpin>
+						</button>
+						<button>
 							<text>"Program\nsuccess"</text>
 							<halpin>"program-success.out"</halpin>
 						</button>
@@ -129,7 +137,7 @@
 								<text>"Program canceled per cycle"</text>
 							</label>
 							<u32>
-							    <halpin>"canceled-program-per-cycle-count.in"</halpin>
+							    <halpin>"canceled-prog-per-cycle-count.in"</halpin>
 							    <format>"1.0f"</format>
 							</u32>
 						</hbox>
@@ -138,7 +146,7 @@
 								<text>"Program success per cycle"</text>
 							</label>
 							<u32>
-							    <halpin>"success-program-per-cycle-count.in"</halpin>
+							    <halpin>"success-prog-per-cycle-count.in"</halpin>
 							    <format>"1.0f"</format>
 							</u32>
 						</hbox>
@@ -229,19 +237,19 @@
 		<vbox>
 			<hbox>
 				<label>
-					<text>"summary-program-success :"</text>
+					<text>"summary-prog-success :"</text>
 				</label>
 				<u32>
-					<halpin>"summary-program-success-count.in"</halpin>
+					<halpin>"summary-prog-success-count.in"</halpin>
 					<format>"4.0f"</format>
 				</u32>
 			</hbox>
 			<hbox>
 				<label>
-					<text>"summary-program-canceled :"</text>
+					<text>"summary-prog-canceled :"</text>
 				</label>
 				<u32>
-					<halpin>"summary-program-canceled-count.in"</halpin>
+					<halpin>"summary-prog-canceled-count.in"</halpin>
 					<format>"4.0f"</format>
 				</u32>
 			</hbox>
