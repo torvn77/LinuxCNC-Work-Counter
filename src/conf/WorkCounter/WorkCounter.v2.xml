@@ -167,11 +167,7 @@
 					</vbox>
 					<hbox>
 						<button>
-							<text>"Cycle\nsuccess"</text>
-							<halpin>"cycle-success.out"</halpin>
-						</button>
-						<button>
-							<text>"Cycle\nreset"</text>
+							<text>"Abort\ncycle"</text>
 							<halpin>"cycle-reset.out"</halpin>
 						</button>
 						<button>
